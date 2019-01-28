@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<conio.h>
 
 typedef struct{
     int id,bt,btc,at,wt,tt;
@@ -11,29 +12,25 @@ void PrSort(process *,int,int,int);
 int* sum(process *,int);
 
 int main(){
-    printf("#### Preemptive Highest Response Ratio Next ####\n\n");
+    printf("==========  Preemptive Highest Response Ratio Next CPU Scheduling Algorithm Simulator  ==========\n\n");
     int i,n,totalWT=0,totalTT=0,t=0;
     float avgWT, avgTT;
     process *p;
 
     //Taking Inputs
-    n=5;
-   // printf("Number of processes: ");
-    //scanf("%d",&n);
+    printf("Number of processes: ");
+    scanf("%d",&n);
 
     //Allocating Memory
     p = (process *) malloc((size_t) n*sizeof(process));
     if(!p){printf("Error while allocating memory."); exit(0);}
 
 
-    printf("Enter arrival time followed by priority and  for burst time each process %d:\n",n);
-    int px[]={3,2,11,4,6};
+    printf("Enter arrival time followed by burst time and priority for each process %d:\n",n);
     for(i=0;i<n;i++){
-        p[i].at = 0;
-        p[i].pr = px[i];
-      //  scanf("%d",&(p[i].at));
-       // scanf("%f",&(p[i].pr));
+        scanf("%d",&(p[i].at));
         scanf("%d",&(p[i].bt));
+        scanf("%f",&(p[i].pr));
         p[i].prc=p[i].pr;
         p[i].btc=p[i].bt;
         p[i].wt=0;
@@ -49,20 +46,20 @@ int main(){
         PrSort(p,n,current_process,t);
 
         if(p[current_process].at>t){
-        //    printf("\nNo Process In Ready Queue\n");
+            printf("\nNo Process In Ready Queue\n");
             continue;
         }
 
-     //   printf("\n");
+        printf("\n");
         p[current_process].pr = ((p[current_process].prc)/2) + (((float)(p[current_process].btc+p[current_process].wt)/(float)p[current_process].btc)/2);
 
-       // printf("Run P%d: BT=%d, BT Remaining=%d, T=%d, WT=%d, Priority=%f\n",p[current_process].id,p[current_process].btc,p[current_process].bt,t,p[current_process].wt,p[current_process].pr);
+        printf("Run P%d: BT=%d, BT Remaining=%d, T=%d, WT=%d, Priority=%f\n",p[current_process].id,p[current_process].btc,p[current_process].bt,t,p[current_process].wt,p[current_process].pr);
 
-//        for(i=current_process;i<n;i++){
-  //          if(p[i].at<=t && p[i].bt>0  ){
-    //            printf("i:%d, prc: %f, bt: %d, wt: %d, res: %f, pr: %f\n",p[i].id,p[i].prc,p[i].btc,p[i].wt,(float)(p[i].btc+p[i].wt)/p[i].btc, ((p[i].prc)/2) + (((float)(p[i].btc+p[i].wt)/(float)p[i].btc)/2));
-      //      }
-        //}
+        for(i=current_process;i<n;i++){
+            if(p[i].at<=t && p[i].bt>0  ){
+                printf("i:%d, prc: %f, bt: %d, wt: %d, res: %f, pr: %f\n",p[i].id,p[i].prc,p[i].btc,p[i].wt,(float)(p[i].btc+p[i].wt)/p[i].btc, ((p[i].prc)/2) + (((float)(p[i].btc+p[i].wt)/(float)p[i].btc)/2));
+            }
+        }
 
 
         //Updating Hybrid Priority
@@ -72,7 +69,6 @@ int main(){
                 p[i].pr = ((p[i].prc)/2) + (((float)(p[i].btc+p[i].wt)/(float)p[i].btc)/2);
             }
         }
-
         bt--;
         p[current_process].bt--;
 
@@ -81,7 +77,7 @@ int main(){
             p[current_process].tt = t-p[current_process].at;
             totalWT+=p[current_process].wt;
             totalTT+=p[current_process].tt;
-     //       printf("\n**********Finished Process P%d: AT=%d WT=%d TT=%d**********\n",p[current_process].id,p[current_process].at,p[current_process].wt,p[current_process].tt);
+            printf("\n**********Finished Process P%d: AT=%d WT=%d TT=%d**********\n",p[current_process].id,p[current_process].at,p[current_process].wt,p[current_process].tt);
             current_process++;
             if(current_process>=n) break;
         }
@@ -92,7 +88,8 @@ int main(){
     avgTT=(float)totalTT/(float)n;
     printf("\nAverage Waiting Time: %f",avgWT);
     printf("\nAverage Turnaround Time: %f\n\n",avgTT);
-
+    printf("\n\nPress any key to exit...");
+    getch();
 }
 
 void PrSort(process *p,int n,int current_process, int t){
@@ -109,7 +106,6 @@ void PrSort(process *p,int n,int current_process, int t){
         }
     }
 }
-
 int* sum(process *p, int n){
     int i;
     int *out;
@@ -121,6 +117,5 @@ int* sum(process *p, int n){
         out[2]+=p[i].wt;
         out[3]+=p[i].tt;
     }
-
     return out;
 }

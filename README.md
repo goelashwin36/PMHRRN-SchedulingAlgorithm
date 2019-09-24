@@ -1,4 +1,4 @@
-# PMHRRN-SchedulingAlgorithm
+# PMHRRN-cpu-scheduling-algorithm
 
 Pre-emptive Modified Highest Response Ratio Next (PMHRRN) is a CPU scheduling algorithm
 which uses hybrid priority of each process in order to schedule it. The hybrid priority is
